@@ -93,8 +93,8 @@ class SubdomainMiddleware(object):
     if your subdomain matches:
 
         SUBDOMAINS = patterns(
-            ('www', ROOT_URLCONF, name='static'),
-            ('(?P<username>\w+)', 'path.to.custom_urls',
+            subdomain('www', ROOT_URLCONF, name='static'),
+            subdomain('(?P<username>\w+)', 'path.to.custom_urls',
                 callback='path.to.custom_fn', name='with-callback'),
         )
 
