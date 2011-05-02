@@ -9,8 +9,6 @@ def patterns(*args):
 
         if name in subdomains:
             raise ImproperlyConfigured("Duplicate subdomain name: %s" % name)
-        if name == 'default':
-            raise ImproperlyConfigured("Reserved subdomain name: %s" % name)
 
         subdomains[name] = x
 
