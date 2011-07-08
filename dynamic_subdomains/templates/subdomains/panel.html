@@ -17,6 +17,22 @@
 </style>
 
 <script language="javascript">
+(function(window, document, version, callback) {
+   var j, d;
+   var loaded = false;
+   if (!(j = window.jQuery) || version > j.fn.jquery || callback(j)) {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = DEBUG_TOOLBAR_MEDIA_URL + "js/jquery.js";
+      script.onload = script.onreadystatechange = function() {
+         if (!loaded && (!(d = this.readyState) || d == "loaded" || d == "complete")) {
+            callback((j = window.jQuery).noConflict(1));
+            j(script).remove();
+         }
+      };
+      document.documentElement.childNodes[0].appendChild(script)
+   }
+})(window, document, "1.3", function($) {
   var navigate_to_subdomain = function(domain) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + 365);
@@ -35,6 +51,7 @@
     navigate_to_subdomain($('#domain_enter').val());
     return false;
   });
+});
 </script>
 
 <form name="navigate_to_domain">
