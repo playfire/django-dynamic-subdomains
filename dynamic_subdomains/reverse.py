@@ -6,6 +6,12 @@ from django.utils.encoding import force_unicode
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.utils.regex_helper import normalize
 
+def urlconf_from_subdomain(name):
+    try:
+        return settings.SUBDOMAINS[name]['urlconf']
+    except KeyError:
+        raise NoReverseMatch("No %r subdomain exists" % name)
+
 def reverse_subdomain(name, args=(), kwargs=None):
     if args and kwargs:
         raise ValueError("Don't mix *args and **kwargs in call to reverse()!")
