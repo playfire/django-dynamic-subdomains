@@ -1,10 +1,14 @@
 import re
+import threading
 
 from django.conf import settings
 from django.core.exceptions import MiddlewareNotUsed, ImproperlyConfigured
 from django.core.urlresolvers import set_urlconf
 
 from .utils import from_dotted_path
+
+_thread_local = threading.local()
+_thread_local.enabled = True
 
 class SubdomainMiddleware(object):
     """
@@ -175,6 +179,9 @@ class SubdomainMiddleware(object):
             subdomain['_callback'] = callback
 
     def process_request(self, request):
+        if not _thread_local.enabled:
+            return
+
         host = request.get_host()
 
         # Find best match, falling back to settings.SUBDOMAIN_DEFAULT
