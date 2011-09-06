@@ -8,7 +8,6 @@ from django.core.urlresolvers import set_urlconf
 from .utils import from_dotted_path
 
 _thread_local = threading.local()
-_thread_local.enabled = True
 
 class SubdomainMiddleware(object):
     """
@@ -179,7 +178,7 @@ class SubdomainMiddleware(object):
             subdomain['_callback'] = callback
 
     def process_request(self, request):
-        if not _thread_local.enabled:
+        if not getattr(_thread_local, 'enabled', True):
             return
 
         host = request.get_host()
