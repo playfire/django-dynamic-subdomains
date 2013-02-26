@@ -14,7 +14,7 @@ def domain_url(parser, token, mangle=True):
     if len(bits) < 2:
         raise TemplateSyntaxError("'%s' takes at least 1 argument" % bits[0])
 
-    view = bits[1]
+    view = parser.compile_filter(bits[1])
     bits = bits[1:] # Strip off view
 
     try:
@@ -68,7 +68,7 @@ class DomainURLNode(template.Node):
 
         return reverse_crossdomain(
             self.subdomain,
-            self.view,
+            self.view.resolve(context),
             subdomain_args,
             subdomain_kwargs,
             view_args,
